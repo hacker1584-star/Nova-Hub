@@ -1,7 +1,11 @@
-/* =========================
-   NOVA HUB
-   MAIN JAVASCRIPT
-========================= */
+/* =========================================
+   NOVA HUB - FULL JAVASCRIPT
+========================================= */
+
+
+/* =========================================
+   GET ELEMENTS
+========================================= */
 
 const searchInput = document.getElementById("searchInput");
 const cards = document.querySelectorAll(".tool-card");
@@ -13,64 +17,92 @@ const modal = document.getElementById("toolModal");
 const modalContent = document.getElementById("modalContent");
 
 
-/* =========================
-   SEARCH
-========================= */
+/* =========================================
+   SEARCH TOOLS
+========================================= */
 
-searchInput.addEventListener("input", () => {
+if (searchInput) {
 
-  const query = searchInput.value.toLowerCase().trim();
+  searchInput.addEventListener("input", function () {
 
-  let visible = 0;
+    const query = searchInput.value
+      .toLowerCase()
+      .trim();
 
-  cards.forEach(card => {
+    let visible = 0;
 
-    const name = card.dataset.name.toLowerCase();
+    cards.forEach(function (card) {
 
-    if (name.includes(query)) {
+      const name = card.dataset.name
+        ? card.dataset.name.toLowerCase()
+        : "";
 
-      card.style.display = "";
+      if (name.includes(query)) {
 
-      visible++;
+        card.style.display = "";
+        visible++;
 
-    } else {
+      } else {
 
-      card.style.display = "none";
+        card.style.display = "none";
+
+      }
+
+    });
+
+    if (toolCount) {
+
+      toolCount.textContent =
+        visible + " tool" + (visible === 1 ? "" : "s");
+
+    }
+
+    if (noResults) {
+
+      noResults.style.display =
+        visible === 0 ? "block" : "none";
 
     }
 
   });
 
-  toolCount.textContent =
-    `${visible} tool${visible === 1 ? "" : "s"}`;
-
-  noResults.style.display =
-    visible === 0 ? "block" : "none";
-
-});
+}
 
 
-/* =========================
-   THEME
-========================= */
+/* =========================================
+   DARK / LIGHT MODE
+========================================= */
 
-themeBtn.addEventListener("click", () => {
+if (themeBtn) {
 
-  document.body.classList.toggle("light");
+  themeBtn.addEventListener("click", function () {
 
-  themeBtn.textContent =
-    document.body.classList.contains("light")
-      ? "☾"
-      : "☀";
+    document.body.classList.toggle("light");
 
-});
+    if (document.body.classList.contains("light")) {
+
+      themeBtn.textContent = "☾";
+
+    } else {
+
+      themeBtn.textContent = "☀";
+
+    }
+
+  });
+
+}
 
 
-/* =========================
-   MODAL
-========================= */
+/* =========================================
+   MODAL SYSTEM
+========================================= */
 
 function openModal(content) {
+
+  if (!modal || !modalContent) {
+    return;
+  }
 
   modalContent.innerHTML = content;
 
@@ -81,6 +113,10 @@ function openModal(content) {
 
 function closeTool() {
 
+  if (!modal || !modalContent) {
+    return;
+  }
+
   modal.classList.remove("active");
 
   modalContent.innerHTML = "";
@@ -88,9 +124,28 @@ function closeTool() {
 }
 
 
-modal.addEventListener("click", event => {
+/* Close when clicking outside */
 
-  if (event.target === modal) {
+if (modal) {
+
+  modal.addEventListener("click", function (event) {
+
+    if (event.target === modal) {
+
+      closeTool();
+
+    }
+
+  });
+
+}
+
+
+/* Close with ESC */
+
+document.addEventListener("keydown", function (event) {
+
+  if (event.key === "Escape") {
 
     closeTool();
 
@@ -99,9 +154,9 @@ modal.addEventListener("click", event => {
 });
 
 
-/* =========================
+/* =========================================
    CALCULATOR
-========================= */
+========================================= */
 
 function openCalculator() {
 
@@ -116,11 +171,17 @@ function openCalculator() {
       placeholder="Example: 25 * 4 + 10"
     >
 
-    <button class="primary-btn" onclick="calculate()">
+    <button
+      class="primary-btn"
+      onclick="calculate()"
+    >
       Calculate
     </button>
 
-    <div id="calcResult" class="result-box">
+    <div
+      id="calcResult"
+      class="result-box"
+    >
       Result will appear here
     </div>
 
@@ -132,38 +193,65 @@ function openCalculator() {
 function calculate() {
 
   const input =
-    document.getElementById("calcInput").value.trim();
+    document.getElementById("calcInput");
 
-  if (!input) return;
+  const resultBox =
+    document.getElementById("calcResult");
+
+  if (!input || !resultBox) {
+    return;
+  }
+
+  const expression =
+    input.value.trim();
+
+  if (expression === "") {
+
+    resultBox.textContent =
+      "Enter a calculation first.";
+
+    return;
+
+  }
+
+  /*
+    Only allow numbers and
+    basic mathematical operators.
+  */
+
+  if (!/^[0-9+\-*/().%\s]+$/.test(expression)) {
+
+    resultBox.textContent =
+      "Invalid calculation.";
+
+    return;
+
+  }
 
   try {
 
-    /*
-      Basic calculator.
-      Allows numbers and normal math operators.
-    */
-
-    if (!/^[0-9+\-*/().%\s]+$/.test(input)) {
-
-      throw new Error();
-
-    }
-
     const result =
-      Function(`"use strict"; return (${input})`)();
+      Function(
+        '"use strict"; return (' +
+        expression +
+        ')'
+      )();
 
-    if (!Number.isFinite(result)) {
+    if (
+      typeof result !== "number" ||
+      !Number.isFinite(result)
+    ) {
 
       throw new Error();
 
     }
 
-    document.getElementById("calcResult").textContent =
-      `Result: ${result}`;
+    resultBox.textContent =
+      "Result: " + result;
 
   } catch {
 
-    document.getElementById("calcResult").textContent =
+    resultBox.textContent =
       "Invalid calculation.";
 
   }
@@ -171,9 +259,9 @@ function calculate() {
 }
 
 
-/* =========================
+/* =========================================
    TEXT TOOLS
-========================= */
+========================================= */
 
 function openTextTools() {
 
@@ -225,6 +313,10 @@ function openTextTools() {
         Clear
       </button>
 
+      <button onclick="copyText()">
+        Copy Text
+      </button>
+
     </div>
 
   `);
@@ -234,29 +326,53 @@ function openTextTools() {
 
 function updateTextStats() {
 
+  const input =
+    document.getElementById("textInput");
+
+  if (!input) {
+    return;
+  }
+
   const text =
-    document.getElementById("textInput").value;
+    input.value;
 
-  const words =
-    text.trim() === ""
-      ? 0
-      : text.trim().split(/\s+/).length;
+  let words = 0;
 
-  const characters = text.length;
+  if (text.trim() !== "") {
+
+    words =
+      text.trim().split(/\s+/).length;
+
+  }
+
+  const characters =
+    text.length;
 
   const lines =
     text === ""
       ? 0
       : text.split("\n").length;
 
-  document.getElementById("wordCount").textContent =
-    words;
+  const wordCount =
+    document.getElementById("wordCount");
 
-  document.getElementById("charCount").textContent =
-    characters;
+  const charCount =
+    document.getElementById("charCount");
 
-  document.getElementById("lineCount").textContent =
-    lines;
+  const lineCount =
+    document.getElementById("lineCount");
+
+  if (wordCount) {
+    wordCount.textContent = words;
+  }
+
+  if (charCount) {
+    charCount.textContent = characters;
+  }
+
+  if (lineCount) {
+    lineCount.textContent = lines;
+  }
 
 }
 
@@ -265,6 +381,10 @@ function uppercaseText() {
 
   const input =
     document.getElementById("textInput");
+
+  if (!input) {
+    return;
+  }
 
   input.value =
     input.value.toUpperCase();
@@ -279,6 +399,10 @@ function lowercaseText() {
   const input =
     document.getElementById("textInput");
 
+  if (!input) {
+    return;
+  }
+
   input.value =
     input.value.toLowerCase();
 
@@ -292,8 +416,14 @@ function removeSpaces() {
   const input =
     document.getElementById("textInput");
 
+  if (!input) {
+    return;
+  }
+
   input.value =
-    input.value.replace(/\s+/g, " ").trim();
+    input.value
+      .replace(/\s+/g, " ")
+      .trim();
 
   updateTextStats();
 
@@ -305,6 +435,10 @@ function clearText() {
   const input =
     document.getElementById("textInput");
 
+  if (!input) {
+    return;
+  }
+
   input.value = "";
 
   updateTextStats();
@@ -312,9 +446,38 @@ function clearText() {
 }
 
 
-/* =========================
-   JSON FORMATTER
-========================= */
+function copyText() {
+
+  const input =
+    document.getElementById("textInput");
+
+  if (!input) {
+    return;
+  }
+
+  if (input.value === "") {
+    return;
+  }
+
+  navigator.clipboard
+    .writeText(input.value)
+    .then(function () {
+
+      alert("Text copied!");
+
+    })
+    .catch(function () {
+
+      alert("Could not copy text.");
+
+    });
+
+}
+
+
+/* =========================================
+   JSON TOOL
+========================================= */
 
 function openJSON() {
 
@@ -325,7 +488,7 @@ function openJSON() {
     <textarea
       id="jsonInput"
       class="tool-textarea"
-      placeholder='Paste JSON here...'
+      placeholder='Example: {"name":"NOVA","version":1}'
     ></textarea>
 
     <div class="button-grid">
@@ -342,9 +505,16 @@ function openJSON() {
         Validate
       </button>
 
+      <button onclick="clearJSON()">
+        Clear
+      </button>
+
     </div>
 
-    <pre id="jsonOutput" class="result-box"></pre>
+    <pre
+      id="jsonOutput"
+      class="result-box"
+    ></pre>
 
   `);
 
@@ -354,18 +524,26 @@ function openJSON() {
 function formatJSON() {
 
   const input =
-    document.getElementById("jsonInput").value;
+    document.getElementById("jsonInput");
+
+  const output =
+    document.getElementById("jsonOutput");
+
+  if (!input || !output) {
+    return;
+  }
 
   try {
 
-    const parsed = JSON.parse(input);
+    const data =
+      JSON.parse(input.value);
 
-    document.getElementById("jsonOutput").textContent =
-      JSON.stringify(parsed, null, 2);
+    output.textContent =
+      JSON.stringify(data, null, 2);
 
   } catch {
 
-    document.getElementById("jsonOutput").textContent =
+    output.textContent =
       "Invalid JSON.";
 
   }
@@ -376,18 +554,26 @@ function formatJSON() {
 function minifyJSON() {
 
   const input =
-    document.getElementById("jsonInput").value;
+    document.getElementById("jsonInput");
+
+  const output =
+    document.getElementById("jsonOutput");
+
+  if (!input || !output) {
+    return;
+  }
 
   try {
 
-    const parsed = JSON.parse(input);
+    const data =
+      JSON.parse(input.value);
 
-    document.getElementById("jsonOutput").textContent =
-      JSON.stringify(parsed);
+    output.textContent =
+      JSON.stringify(data);
 
   } catch {
 
-    document.getElementById("jsonOutput").textContent =
+    output.textContent =
       "Invalid JSON.";
 
   }
@@ -398,18 +584,25 @@ function minifyJSON() {
 function validateJSON() {
 
   const input =
-    document.getElementById("jsonInput").value;
+    document.getElementById("jsonInput");
+
+  const output =
+    document.getElementById("jsonOutput");
+
+  if (!input || !output) {
+    return;
+  }
 
   try {
 
-    JSON.parse(input);
+    JSON.parse(input.value);
 
-    document.getElementById("jsonOutput").textContent =
+    output.textContent =
       "✓ Valid JSON";
 
   } catch {
 
-    document.getElementById("jsonOutput").textContent =
+    output.textContent =
       "✕ Invalid JSON";
 
   }
@@ -417,9 +610,28 @@ function validateJSON() {
 }
 
 
-/* =========================
-   BASE64
-========================= */
+function clearJSON() {
+
+  const input =
+    document.getElementById("jsonInput");
+
+  const output =
+    document.getElementById("jsonOutput");
+
+  if (input) {
+    input.value = "";
+  }
+
+  if (output) {
+    output.textContent = "";
+  }
+
+}
+
+
+/* =========================================
+   BASE64 TOOL
+========================================= */
 
 function openBase64() {
 
@@ -460,10 +672,38 @@ function openBase64() {
 function encodeBase64() {
 
   const input =
-    document.getElementById("baseInput").value;
+    document.getElementById("baseInput");
 
-  document.getElementById("baseOutput").value =
-    btoa(unescape(encodeURIComponent(input)));
+  const output =
+    document.getElementById("baseOutput");
+
+  if (!input || !output) {
+    return;
+  }
+
+  try {
+
+    const bytes =
+      new TextEncoder()
+        .encode(input.value);
+
+    let binary = "";
+
+    bytes.forEach(function (byte) {
+
+      binary += String.fromCharCode(byte);
+
+    });
+
+    output.value =
+      btoa(binary);
+
+  } catch {
+
+    output.value =
+      "Could not encode text.";
+
+  }
 
 }
 
@@ -471,18 +711,34 @@ function encodeBase64() {
 function decodeBase64() {
 
   const input =
-    document.getElementById("baseInput").value;
+    document.getElementById("baseInput");
+
+  const output =
+    document.getElementById("baseOutput");
+
+  if (!input || !output) {
+    return;
+  }
 
   try {
 
-    document.getElementById("baseOutput").value =
-      decodeURIComponent(
-        escape(atob(input))
+    const binary =
+      atob(input.value);
+
+    const bytes =
+      Uint8Array.from(
+        binary,
+        function (char) {
+          return char.charCodeAt(0);
+        }
       );
+
+    output.value =
+      new TextDecoder().decode(bytes);
 
   } catch {
 
-    document.getElementById("baseOutput").value =
+    output.value =
       "Invalid Base64.";
 
   }
@@ -490,17 +746,15 @@ function decodeBase64() {
 }
 
 
-/* =========================
+/* =========================================
    PASSWORD GENERATOR
-========================= */
+========================================= */
 
 function openPassword() {
 
   openModal(`
 
     <h2>Password Generator</h2>
-
-    <label>Password length</label>
 
     <input
       id="passwordLength"
@@ -509,6 +763,7 @@ function openPassword() {
       min="6"
       max="64"
       value="16"
+      placeholder="Password length"
     >
 
     <button
@@ -520,9 +775,9 @@ function openPassword() {
 
     <div
       id="passwordResult"
-      class="result-box password-result"
+      class="result-box"
     >
-      Your password appears here
+      Your password will appear here.
     </div>
 
     <button onclick="copyPassword()">
@@ -536,27 +791,51 @@ function openPassword() {
 
 function generatePassword() {
 
-  const length =
-    Number(document.getElementById("passwordLength").value);
+  const lengthInput =
+    document.getElementById("passwordLength");
+
+  const result =
+    document.getElementById("passwordResult");
+
+  if (!lengthInput || !result) {
+    return;
+  }
+
+  let length =
+    Number(lengthInput.value);
+
+  if (length < 6) {
+    length = 6;
+  }
+
+  if (length > 64) {
+    length = 64;
+  }
 
   const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+    "abcdefghijklmnopqrstuvwxyz" +
+    "0123456789" +
+    "!@#$%^&*()_+-=[]{}";
 
-  let password = "";
-
-  const array =
+  const randomValues =
     new Uint32Array(length);
 
-  crypto.getRandomValues(array);
+  crypto.getRandomValues(randomValues);
+
+  let password = "";
 
   for (let i = 0; i < length; i++) {
 
     password +=
-      characters[array[i] % characters.length];
+      characters[
+        randomValues[i] %
+        characters.length
+      ];
 
   }
 
-  document.getElementById("passwordResult").textContent =
+  result.textContent =
     password;
 
 }
@@ -564,19 +843,44 @@ function generatePassword() {
 
 function copyPassword() {
 
+  const result =
+    document.getElementById("passwordResult");
+
+  if (!result) {
+    return;
+  }
+
   const password =
-    document.getElementById("passwordResult").textContent;
+    result.textContent;
 
-  navigator.clipboard.writeText(password);
+  if (
+    !password ||
+    password.includes("will appear")
+  ) {
 
-  alert("Password copied.");
+    return;
+
+  }
+
+  navigator.clipboard
+    .writeText(password)
+    .then(function () {
+
+      alert("Password copied!");
+
+    })
+    .catch(function () {
+
+      alert("Could not copy password.");
+
+    });
 
 }
 
 
-/* =========================
-   URL TOOL
-========================= */
+/* =========================================
+   URL ENCODER / DECODER
+========================================= */
 
 function openURLTool() {
 
@@ -617,10 +921,17 @@ function openURLTool() {
 function encodeURL() {
 
   const input =
-    document.getElementById("urlInput").value;
+    document.getElementById("urlInput");
 
-  document.getElementById("urlOutput").value =
-    encodeURIComponent(input);
+  const output =
+    document.getElementById("urlOutput");
+
+  if (!input || !output) {
+    return;
+  }
+
+  output.value =
+    encodeURIComponent(input.value);
 
 }
 
@@ -628,26 +939,33 @@ function encodeURL() {
 function decodeURL() {
 
   const input =
-    document.getElementById("urlInput").value;
+    document.getElementById("urlInput");
+
+  const output =
+    document.getElementById("urlOutput");
+
+  if (!input || !output) {
+    return;
+  }
 
   try {
 
-    document.getElementById("urlOutput").value =
-      decodeURIComponent(input);
+    output.value =
+      decodeURIComponent(input.value);
 
   } catch {
 
-    document.getElementById("urlOutput").value =
-      "Invalid encoded URL.";
+    output.value =
+      "Invalid encoded text.";
 
   }
 
 }
 
 
-/* =========================
+/* =========================================
    TIMESTAMP TOOL
-========================= */
+========================================= */
 
 function openTimestamp() {
 
@@ -662,8 +980,11 @@ function openTimestamp() {
       Get Current Timestamp
     </button>
 
-    <div id="timestampResult" class="result-box">
-      Result appears here
+    <div
+      id="timestampResult"
+      class="result-box"
+    >
+      Result will appear here.
     </div>
 
     <input
@@ -684,11 +1005,18 @@ function openTimestamp() {
 
 function currentTimestamp() {
 
+  const result =
+    document.getElementById("timestampResult");
+
+  if (!result) {
+    return;
+  }
+
   const timestamp =
     Math.floor(Date.now() / 1000);
 
-  document.getElementById("timestampResult").textContent =
-    `Unix timestamp: ${timestamp}`;
+  result.textContent =
+    "Unix timestamp: " + timestamp;
 
 }
 
@@ -696,44 +1024,65 @@ function currentTimestamp() {
 function convertTimestamp() {
 
   const input =
-    Number(document.getElementById("timestampInput").value);
+    document.getElementById("timestampInput");
 
-  if (!input) return;
+  const result =
+    document.getElementById("timestampResult");
+
+  if (!input || !result) {
+    return;
+  }
+
+  const timestamp =
+    Number(input.value);
+
+  if (!Number.isFinite(timestamp)) {
+
+    result.textContent =
+      "Enter a valid timestamp.";
+
+    return;
+
+  }
 
   const date =
-    new Date(input * 1000);
+    new Date(timestamp * 1000);
 
-  document.getElementById("timestampResult").textContent =
+  result.textContent =
     date.toString();
 
 }
 
 
-/* =========================
-   AI ASSISTANT
-========================= */
+/* =========================================
+   NOVA AI
+========================================= */
 
 function openAI() {
 
   openModal(`
 
-    <h2>NOVA AI</h2>
+    <h2>✦ NOVA AI</h2>
 
     <p>
-      The NOVA AI engine will connect here later.
-    </p>
-
-    <p>
-      The toolbox itself is already running locally
-      in your browser.
+      NOVA AI will be connected to a real AI backend
+      in a later stage.
     </p>
 
     <div class="result-box">
 
-      AI backend required for live AI responses.
+      The current NOVA Hub tools work directly
+      inside your browser without an API key.
 
     </div>
 
   `);
 
 }
+
+
+/* =========================================
+   STARTUP
+========================================= */
+
+console.log("NOVA Hub JavaScript loaded successfully.");
