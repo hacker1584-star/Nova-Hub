@@ -16,6 +16,11 @@ body {
   transition: 0.3s;
 }
 
+
+/* =========================================
+   NAVBAR
+========================================= */
+
 .navbar {
   height: 70px;
   padding: 0 7%;
@@ -66,118 +71,455 @@ nav a:hover {
   cursor: pointer;
 }
 
-.hero {
-  max-width: 900px;
+
+/* =========================================
+   NOVA HERO
+========================================= */
+
+.nova-section {
+  max-width: 1000px;
   margin: auto;
+  padding: 90px 20px 70px;
   text-align: center;
-  padding: 100px 20px 70px;
 }
 
-.badge {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: #aaa;
-  border: 1px solid #2b2b2b;
-  padding: 8px 14px;
+.nova-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 8px 15px;
+
+  border: 1px solid #303030;
   border-radius: 30px;
+
+  color: #aaa;
+
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+
   margin-bottom: 25px;
+
+  background: #0b0b0b;
 }
 
-.hero h1 {
-  font-size: clamp(45px, 8vw, 85px);
+.nova-section h1 {
+  font-size: clamp(48px, 8vw, 82px);
   line-height: 0.95;
   letter-spacing: -4px;
 }
 
-.hero h1 span {
+.nova-section h1 span {
   color: #666;
 }
 
-.hero-text {
+.nova-description {
   max-width: 600px;
-  margin: 25px auto;
+  margin: 25px auto 35px;
+
   color: #888;
+
   font-size: 17px;
   line-height: 1.6;
 }
 
-.search-box {
-  margin: 35px auto 15px;
-  max-width: 600px;
-  height: 58px;
+
+/* =========================================
+   NOVA CHAT
+========================================= */
+
+.nova-chat {
+  width: 100%;
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  background: #0b0b0b;
+
+  border: 1px solid #242424;
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  text-align: left;
+
+  box-shadow:
+    0 20px 70px rgba(0, 0, 0, 0.35);
+}
+
+
+/* CHAT MESSAGES */
+
+.chat-messages {
+  min-height: 230px;
+  max-height: 450px;
+
+  overflow-y: auto;
+
+  padding: 25px;
+}
+
+
+/* WELCOME */
+
+.nova-welcome {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+
+  padding: 15px;
+}
+
+.nova-avatar {
+  flex-shrink: 0;
+
+  width: 40px;
+  height: 40px;
+
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  border: 1px solid #292929;
-  background: #0d0d0d;
+  justify-content: center;
+
   border-radius: 12px;
+
+  background: #171717;
+
+  border: 1px solid #292929;
+
+  font-size: 18px;
 }
 
-.search-box input {
+.nova-welcome h3 {
+  margin-bottom: 7px;
+}
+
+.nova-welcome p {
+  color: #777;
+  font-size: 14px;
+}
+
+
+/* CHAT MESSAGES */
+
+.chat-message {
+  display: flex;
+  margin-bottom: 18px;
+}
+
+.chat-message.user {
+  justify-content: flex-end;
+}
+
+.chat-bubble {
+  max-width: 80%;
+
+  padding: 12px 15px;
+
+  border-radius: 14px;
+
+  font-size: 14px;
+  line-height: 1.6;
+
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.chat-message.user .chat-bubble {
+  background: #ffffff;
+  color: #000000;
+
+  border-bottom-right-radius: 4px;
+}
+
+.chat-message.nova .chat-bubble {
+  background: #151515;
+  color: #ddd;
+
+  border: 1px solid #242424;
+
+  border-bottom-left-radius: 4px;
+}
+
+
+/* INPUT */
+
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+
+  padding: 15px;
+
+  border-top: 1px solid #202020;
+
+  background: #080808;
+}
+
+#chatInput {
   flex: 1;
-  border: none;
+
+  min-height: 48px;
+  max-height: 140px;
+
+  resize: none;
+
+  border: 1px solid #292929;
+
+  border-radius: 13px;
+
+  padding: 14px;
+
   outline: none;
-  background: transparent;
+
+  background: #111;
+
   color: white;
-  font-size: 16px;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  line-height: 1.4;
 }
 
-#toolCount {
-  color: #666;
-  font-size: 13px;
+#chatInput:focus {
+  border-color: #555;
 }
+
+#chatInput::placeholder {
+  color: #666;
+}
+
+
+/* SEND BUTTON */
+
+#sendBtn {
+  flex-shrink: 0;
+
+  width: 48px;
+  height: 48px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background: white;
+
+  color: black;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+#sendBtn:hover {
+  transform: translateY(-2px);
+}
+
+#sendBtn:active {
+  transform: scale(0.95);
+}
+
+
+/* CHAT HINT */
+
+.chat-hint {
+  padding: 0 15px 14px;
+
+  text-align: center;
+
+  color: #555;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   QUICK PROMPTS
+========================================= */
+
+.quick-prompts {
+  max-width: 800px;
+
+  margin: 15px auto 0;
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+}
+
+.quick-prompts button {
+  border: 1px solid #292929;
+
+  background: #0c0c0c;
+
+  color: #888;
+
+  padding: 9px 13px;
+
+  border-radius: 20px;
+
+  cursor: pointer;
+
+  font-size: 12px;
+
+  transition: 0.2s;
+}
+
+.quick-prompts button:hover {
+  color: white;
+  border-color: #444;
+  background: #121212;
+}
+
+
+/* =========================================
+   TOOLS
+========================================= */
 
 .tools-section {
   max-width: 1150px;
+
   margin: auto;
+
   padding: 70px 20px;
 }
 
 .section-heading {
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .section-heading h2 {
   font-size: 32px;
 }
 
-.section-heading p {
+.section-heading p:not(.badge) {
   color: #777;
   margin-top: 8px;
+  line-height: 1.6;
 }
+
+.badge {
+  display: inline-block;
+
+  font-size: 11px;
+
+  letter-spacing: 2px;
+
+  color: #aaa;
+
+  border: 1px solid #2b2b2b;
+
+  padding: 8px 14px;
+
+  border-radius: 30px;
+
+  margin-bottom: 18px;
+}
+
+
+/* TOOL SEARCH */
+
+.search-box {
+  margin: 25px auto 15px;
+
+  max-width: 600px;
+
+  height: 58px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 20px;
+
+  border: 1px solid #292929;
+
+  background: #0d0d0d;
+
+  border-radius: 12px;
+}
+
+.search-box input {
+  flex: 1;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: white;
+
+  font-size: 16px;
+}
+
+#toolCount {
+  color: #666;
+
+  font-size: 13px;
+
+  margin-bottom: 20px;
+}
+
+
+/* TOOL GRID */
 
 .tools-grid {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 18px;
 }
 
 .tool-card {
   background: #0c0c0c;
+
   border: 1px solid #1e1e1e;
+
   border-radius: 16px;
+
   padding: 28px;
+
   transition: 0.25s;
 }
 
 .tool-card:hover {
   transform: translateY(-5px);
+
   border-color: #444;
+
   background: #101010;
 }
 
 .tool-icon {
   width: 48px;
   height: 48px;
+
   border-radius: 12px;
+
   background: #171717;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
+
   margin-bottom: 22px;
+
   font-size: 20px;
+
   font-weight: bold;
 }
 
@@ -187,8 +529,11 @@ nav a:hover {
 
 .tool-card p {
   color: #777;
+
   font-size: 14px;
+
   line-height: 1.6;
+
   min-height: 45px;
 }
 
@@ -196,11 +541,17 @@ nav a:hover {
 .button-grid button,
 .modal-box > button:not(.close-btn) {
   margin-top: 20px;
+
   border: 1px solid #333;
+
   background: #151515;
+
   color: white;
+
   padding: 11px 15px;
+
   border-radius: 9px;
+
   cursor: pointer;
 }
 
@@ -210,51 +561,88 @@ nav a:hover {
   background: #252525;
 }
 
+.nova-tool-card {
+  border-color: #303030;
+}
+
 #noResults {
   display: none;
+
   text-align: center;
+
   color: #777;
+
   padding: 40px;
 }
 
+
+/* =========================================
+   ABOUT
+========================================= */
+
 .about {
   max-width: 850px;
+
   margin: auto;
+
   padding: 100px 20px;
+
   text-align: center;
 }
 
 .about h2 {
   font-size: 42px;
+
   margin-bottom: 20px;
 }
 
 .about > p:last-child {
   color: #777;
+
   line-height: 1.8;
 }
 
+
+/* =========================================
+   FOOTER
+========================================= */
+
 footer {
   border-top: 1px solid #1a1a1a;
+
   padding: 30px 7%;
+
   display: flex;
+
   justify-content: space-between;
+
   color: #555;
+
   font-size: 13px;
 }
 
 
-/* MODAL */
+/* =========================================
+   MODAL
+========================================= */
 
 .modal {
   position: fixed;
+
   inset: 0;
+
   background: rgba(0, 0, 0, 0.8);
+
   display: none;
+
   align-items: center;
+
   justify-content: center;
+
   padding: 20px;
+
   z-index: 1000;
+
   backdrop-filter: blur(8px);
 }
 
@@ -264,46 +652,69 @@ footer {
 
 .modal-box {
   position: relative;
+
   width: min(650px, 100%);
+
   max-height: 90vh;
+
   overflow-y: auto;
+
   background: #0c0c0c;
+
   border: 1px solid #292929;
+
   border-radius: 18px;
+
   padding: 30px;
 }
 
 .modal-box h2 {
   margin-bottom: 20px;
+
   font-size: 28px;
 }
 
 .modal-box p {
   color: #888;
+
   line-height: 1.7;
+
   margin-bottom: 15px;
 }
 
 .close-btn {
   position: absolute;
+
   right: 18px;
   top: 15px;
+
   border: none;
+
   background: transparent;
+
   color: #888;
+
   font-size: 30px;
+
   cursor: pointer;
 }
 
 .tool-input,
 .tool-textarea {
   width: 100%;
+
   border: 1px solid #292929;
+
   background: #050505;
+
   color: white;
+
   padding: 14px;
+
   border-radius: 10px;
+
   outline: none;
+
   margin-bottom: 15px;
 }
 
@@ -314,73 +725,104 @@ footer {
 
 .tool-textarea {
   min-height: 180px;
+
   resize: vertical;
+
   font-family: monospace;
 }
 
 .primary-btn {
   width: 100%;
+
   border: none;
+
   background: white;
+
   color: black;
+
   padding: 14px;
+
   border-radius: 10px;
+
   font-weight: bold;
+
   cursor: pointer;
 }
 
 .result-box {
   margin-top: 15px;
+
   padding: 15px;
+
   background: #050505;
+
   border: 1px solid #222;
+
   border-radius: 10px;
+
   color: #ddd;
+
   white-space: pre-wrap;
+
   word-break: break-word;
+
   min-height: 50px;
 }
 
 .stats {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 10px;
+
   margin-bottom: 15px;
 }
 
 .stats div {
   background: #111;
+
   padding: 15px;
+
   border-radius: 10px;
+
   text-align: center;
 }
 
 .stats strong {
   display: block;
+
   font-size: 22px;
 }
 
 .stats span {
   color: #777;
+
   font-size: 12px;
 }
 
 .button-grid {
   display: grid;
+
   grid-template-columns: repeat(2, 1fr);
+
   gap: 10px;
 }
 
 
-/* LIGHT MODE */
+/* =========================================
+   LIGHT MODE
+========================================= */
 
 body.light {
   background: #f4f4f4;
+
   color: #111;
 }
 
 body.light .navbar {
   background: rgba(244, 244, 244, 0.92);
+
   border-color: #ddd;
 }
 
@@ -390,22 +832,52 @@ body.light nav a {
 
 body.light #themeBtn {
   background: white;
+
   color: black;
+
   border-color: #ccc;
 }
 
+body.light .nova-badge,
+body.light .nova-chat,
+body.light .quick-prompts button,
 body.light .search-box,
 body.light .tool-card,
 body.light .modal-box {
   background: white;
+
   border-color: #ddd;
 }
 
-body.light .search-box input,
-body.light .tool-input,
-body.light .tool-textarea {
-  color: black;
-  background: white;
+body.light .nova-description,
+body.light .nova-welcome p {
+  color: #666;
+}
+
+body.light .chat-input-area {
+  background: #fafafa;
+
+  border-color: #ddd;
+}
+
+body.light #chatInput {
+  background: #f5f5f5;
+
+  color: #111;
+
+  border-color: #ddd;
+}
+
+body.light .chat-message.nova .chat-bubble {
+  background: #f2f2f2;
+
+  color: #222;
+
+  border-color: #ddd;
+}
+
+body.light .quick-prompts button {
+  color: #555;
 }
 
 body.light .tool-card:hover {
@@ -430,11 +902,14 @@ body.light .modal {
 
 body.light .result-box {
   background: #f5f5f5;
+
   color: #222;
 }
 
 
-/* MOBILE */
+/* =========================================
+   MOBILE
+========================================= */
 
 @media (max-width: 800px) {
 
@@ -450,12 +925,40 @@ body.light .result-box {
     display: none;
   }
 
-  .hero {
-    padding-top: 70px;
+  .nova-section {
+    padding: 65px 15px 50px;
   }
 
-  .hero h1 {
-    letter-spacing: -2px;
+  .nova-section h1 {
+    font-size: clamp(44px, 14vw, 65px);
+
+    letter-spacing: -3px;
+  }
+
+  .nova-description {
+    font-size: 15px;
+  }
+
+  .chat-messages {
+    min-height: 260px;
+
+    padding: 15px;
+  }
+
+  .chat-bubble {
+    max-width: 90%;
+  }
+
+  .chat-input-area {
+    padding: 10px;
+  }
+
+  #chatInput {
+    font-size: 14px;
+  }
+
+  .quick-prompts {
+    justify-content: flex-start;
   }
 
   .tools-grid {
@@ -468,6 +971,7 @@ body.light .result-box {
 
   footer {
     flex-direction: column;
+
     gap: 10px;
   }
 
