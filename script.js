@@ -56,3 +56,6 @@ themeBtn.addEventListener("click", () => {
   }
 
 });
+function openCalculator() {
+  alert("Calculator coming next 🚀");
+}
